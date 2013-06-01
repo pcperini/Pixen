@@ -21,6 +21,7 @@
 #import "PXGrid.h"
 #import "PXCrosshair.h"
 #import "PXCanvasDocument.h"
+#import "PXPencilTool.h"
 
 //Taken from a man calling himself "BROCK BRANDENBERG" 
 //who is here to save the day.
@@ -666,6 +667,15 @@ void PXDebugRect(NSRect r, float alpha)
 	BOOL inside = NSPointInRect([[self window] mouseLocationOutsideOfEventStream], [self convertRect:[self bounds] toView:nil]);
 	trackingRect = [self addTrackingRect:[self visibleRect] owner:self userData:NULL assumeInside:inside];
 	[self setShouldDrawMainBackground:inside];
+
+    if ([[[PXToolPaletteController sharedToolPaletteController] currentTool] isKindOfClass: [PXPencilTool class]] && inside)
+    {
+        [NSCursor hide];
+    }
+    else
+    {
+        [NSCursor unhide];
+    }
 }
 
 - (void)mouseEntered:event
